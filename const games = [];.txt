@@ -1,0 +1,35 @@
+const games = [];
+const categories = ['Action', 'Adventure', 'Puzzle', 'Racing', 'Strategy', 'Sports', 'Arcade', 'Simulation'];
+
+for (let i = 1; i <= 100; i++) {
+  games.push({
+    title: `Game ${i}`,
+    category: categories[Math.floor(Math.random() * categories.length)]
+  });
+}
+
+const grid = document.getElementById('gameGrid');
+const searchInput = document.getElementById('search');
+
+function renderGames(filter = '') {
+  grid.innerHTML = '';
+  const filteredGames = games.filter(game =>
+    game.title.toLowerCase().includes(filter.toLowerCase()) ||
+    game.category.toLowerCase().includes(filter.toLowerCase())
+  );
+  filteredGames.forEach(game => {
+    const card = document.createElement('div');
+    card.className = 'game-card';
+    card.innerHTML = `
+      <div class="game-title">${game.title}</div>
+      <div class="game-category">${game.category}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+searchInput.addEventListener('input', (e) => {
+  renderGames(e.target.value);
+});
+
+renderGames();
